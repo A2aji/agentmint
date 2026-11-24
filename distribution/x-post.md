@@ -1,7 +1,7 @@
 # AgentMint — X Post Drafts
 
-Status: DRAFT — Bos posts these himself from his own phone (X login from Muse's side is blocked).
-Replace every [PLACEHOLDER] before posting.
+Status: READY — Bos posts these himself from his own phone (X login from Muse's side is blocked).
+Website: https://a2aji.github.io/agentmint/
 Hashtags #BinanceWalletHackathon and #AgenticWallet are required for the $2,000 X Community Promotion Campaign (20 winners, $100 each — post quality judged by the Binance Wallet team).
 Red lines: no "passive income", no "return", no promises of token value. The token is a community reward, not an investment.
 
@@ -13,11 +13,11 @@ AgentMint is live — a free-mint launchpad for Agent ID holders on BNB Chain.
 
 Hold a .ai name? Mint a free NFT + get a community reward token in the same tx. You only pay gas.
 
-Try it: [PLACEHOLDER]
+Try it: https://a2aji.github.io/agentmint/
 
 #BinanceWalletHackathon #AgenticWallet
 
-Character count: 238 — OK (≤280), verified 24 Nov.
+Character count: 258 — OK (≤280), verified 24 Nov.
 
 ---
 
@@ -37,11 +37,11 @@ Your .ai name shows on the collection page as the minter.
 
 ### 3/3
 
-Live on BNB Chain now: [PLACEHOLDER]
+Live on BNB Chain now: https://a2aji.github.io/agentmint/
 Built by jiazi22.ai. What collection would you launch?
 #BinanceWalletHackathon #AgenticWallet
 
-Character counts (verified 24 Nov): 1/3 = 207, 2/3 = 173, 3/3 = 130 — all ≤280. Re-count if [PLACEHOLDER] is replaced by a long URL.
+Character counts (verified 24 Nov): 1/3 = 207, 2/3 = 173, 3/3 = 150 — all ≤280.
 
 ---
 

@@ -1,7 +1,6 @@
 # AgentMint — Binance Square Announcement (DRAFT)
 
-Status: DRAFT — do NOT post until the website and contracts are live.
-Replace every [PLACEHOLDER] before posting. Post from Bos's own account.
+Status: READY — website and contracts are live (24 Nov 2026). Post from Bos's own account.
 Language: English. One post.
 
 ---
@@ -21,7 +20,7 @@ Every mint also sends a community reward token to the minter in the same transac
 
 **How to mint (step by step)**
 
-1. Open the AgentMint website: [PLACEHOLDER — WEBSITE URL]
+1. Open the AgentMint website: https://a2aji.github.io/agentmint/
 2. Connect your wallet that holds an Agent ID (your `.ai` name). You can check your Agent ID in the Binance App: Wallet > Agent ID.
 3. Browse the live collections and pick one.
 4. Click **Mint** — the mint itself is free; confirm the transaction in your wallet and pay only the network gas fee.
@@ -35,10 +34,10 @@ Every mint also sends a community reward token to the minter in the same transac
 
 **Contracts (verified, open-source on BscScan)**
 
-- Factory: [PLACEHOLDER — CONTRACT ADDRESS]
-- NFT template: [PLACEHOLDER — CONTRACT ADDRESS]
-- Reward token: [PLACEHOLDER — CONTRACT ADDRESS]
-- Source code: [PLACEHOLDER — GITHUB REPO URL]
+- Factory: 0xFF6A1F2070f395Be9cA150Be4eBbd44d6b92267C
+- NFT template: 0x1a3b457Af5fF36283d2444C47F65622c123AC979
+- Reward token: 0x608112c648C48Df948cebEFcfE39871fC9DB6085
+- Source code: https://github.com/A2aji/agentmint
 
 **Built for the Binance Agent ID Hackathon**
 
@@ -50,9 +49,9 @@ Questions or feedback? Reply here — every Agent ID holder who tries it helps s
 
 ## Pre-post checklist (for Bos / coordinator)
 
-- [ ] Website URL live and reachable
-- [ ] All three contract addresses deployed on BNB Chain mainnet
-- [ ] Contracts verified + open-source on BscScan
-- [ ] At least one collection live and mintable (test-mint it first from a second wallet if possible)
+- [x] Website URL live and reachable
+- [x] All three contract addresses deployed on BNB Chain mainnet
+- [x] Contracts verified + open-source on BscScan
+- [x] At least one collection live and mintable (test-mint it first from a second wallet if possible)
 - [ ] No banned wording anywhere on the page ("passive income", "return", promises of token value) — check the page copy against the hackathon red lines before posting
 - [ ] Reward receiving address and owner permissions documented in the repo README
