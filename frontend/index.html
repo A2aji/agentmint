@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentMint — Free-mint NFT launchpad for Agent ID holders</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; line-height: 1.5; }
+  h1 { font-size: 1.6rem; margin-bottom: 0.2rem; }
+  .sub { color: #666; margin-top: 0; }
+  .card { border: 1px solid #ccc; border-radius: 12px; padding: 16px; margin: 16px 0; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  button { padding: 10px 16px; border-radius: 8px; border: 1px solid #888; background: #f5f5f5; cursor: pointer; font-size: 1rem; }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  button.primary { background: #f0b90b; border-color: #d9a406; color: #111; font-weight: 600; }
+  input, select { padding: 8px; border-radius: 6px; border: 1px solid #aaa; font-size: 1rem; }
+  label { display: block; margin: 8px 0 2px; font-weight: 600; }
+  .status { font-weight: 600; }
+  .ok { color: #0a7a2f; }
+  .bad { color: #b00020; }
+  .muted { color: #666; font-size: 0.9rem; }
+  .collection { border-top: 1px solid #ddd; padding: 12px 0; }
+  .collection:first-of-type { border-top: none; }
+  #log { white-space: pre-wrap; font-size: 0.85rem; background: #f7f7f7; border-radius: 8px; padding: 12px; max-height: 220px; overflow: auto; }
+  code { background: #eee; padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<h1>AgentMint</h1>
+<p class="sub">Free-mint NFT launchpad for Agent ID holders. Every free mint also sends a fixed amount of AMT community reward tokens to the minter, in the same transaction. <strong>Free mint — you only pay gas (hanya bayar gas).</strong></p>
+<p class="muted">AMT is a community reward token for the launchpad. It carries no promise of any kind about future value.</p>
+
+<div class="card">
+  <div class="row">
+    <label for="network">Network</label>
+    <select id="network">
+      <option value="testnet">BNB Smart Chain Testnet</option>
+      <option value="mainnet">BNB Smart Chain (mainnet)</option>
+    </select>
+    <button id="connectBtn" class="primary">Connect wallet</button>
+    <button id="switchBtn" disabled>Switch network in wallet</button>
+  </div>
+  <p id="walletStatus" class="status">Not connected.</p>
+  <p id="agentIdStatus" class="status"></p>
+  <p class="muted">Connect with your browser wallet (for example MetaMask). This page never asks for a seed phrase, private key, or pairing code. Minting needs no token approval.</p>
+</div>
+
+<div class="card">
+  <h2>Your balances</h2>
+  <p>AMT (community reward token): <strong id="amtBalance">—</strong></p>
+  <p class="muted">NFT balances are shown per collection below.</p>
+</div>
+
+<div class="card">
+  <h2>Collections</h2>
+  <div class="row">
+    <button id="refreshBtn">Refresh list</button>
+    <span id="collectionCount" class="muted"></span>
+  </div>
+  <div id="collections"><p class="muted">Connect a wallet to see collections.</p></div>
+</div>
+
+<div class="card">
+  <h2>Launch a collection</h2>
+  <p class="muted">Only Agent ID holders can launch. Launching creates a new free-mint collection; you become its owner (you can pause minting and change its base URI). Launching costs only gas — there is no fee.</p>
+  <label for="cName">Collection name</label>
+  <input id="cName" type="text" placeholder="My Collection" size="32">
+  <label for="cSymbol">Symbol</label>
+  <input id="cSymbol" type="text" placeholder="MYC" size="12">
+  <label for="cSupply">Max supply</label>
+  <input id="cSupply" type="number" min="1" value="1000" size="12">
+  <label for="cPayout">AMT community reward per mint (whole AMT)</label>
+  <input id="cPayout" type="number" min="1" value="100" size="12">
+  <div class="row" style="margin-top:12px">
+    <button id="launchBtn" class="primary" disabled>Launch collection (free, gas only)</button>
+  </div>
+  <p id="launchStatus" class="muted"></p>
+</div>
+
+<div class="card">
+  <h2>Activity</h2>
+  <div id="log">Ready.</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

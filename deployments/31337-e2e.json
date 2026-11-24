@@ -1,0 +1,30 @@
+{
+  "network": 31337,
+  "allPass": true,
+  "results": {
+    "a_createCollection": {
+      "pass": true,
+      "collection": "0x61c36a8d610163660E21a8b7359e1Cac0C9133e1",
+      "txHash": "0xa5fe8392a4d7a8cfb1d1c94f3e7028d395cec54a5589025b1cda404b0f60a062",
+      "gasUsed": "389832",
+      "collectionCount": "1"
+    },
+    "b_freeMint_holder": {
+      "pass": true,
+      "txHash": "0x602f7dfcd0bc2b1bb136bf1a87d2d27ccc2b859fa2201f75bf92b113cfeb24d6",
+      "gasUsed": "171548",
+      "tokenId": "1",
+      "nftBalance": "1",
+      "amtBalance": "1000.0",
+      "totalMinted": "1"
+    },
+    "c_mint_noAgentId_reverts": {
+      "pass": true,
+      "revertReason": "AgentMintNFT: caller holds no Agent ID"
+    },
+    "d_secondMint_reverts": {
+      "pass": true,
+      "revertReason": "AgentMintNFT: already minted"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "network": "bscTestnet (97)",
+  "deployer": "0x1917eaea3d9092487E8De6a8068A1359C8b2882B",
+  "tester2": "0x9D7cC11dDD293e9133bD1fB90dCFdEBf8742e4Dd",
+  "tester3": "0x81645E749e75fC7a42fbCF01AEddfB59004ce619",
+  "note": "Private keys live ONLY in .env (mode 600). tester3 holds NO mock Agent ID by design."
+}

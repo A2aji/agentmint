@@ -29,7 +29,9 @@ module.exports = {
   networks: {
     hardhat: {},
     bscTestnet: {
-      url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+      // NOTE 24 Nov 2026: data-seed-prebsc-1-s1 timed out twice from this
+      // VM; data-seed-prebsc-2-s1 answers in ~1s (chainId 0x61, gas 0.1 gwei).
+      url: "https://data-seed-prebsc-2-s1.binance.org:8545/",
       chainId: 97,
       accounts: deployerAccounts,
     },
@@ -44,5 +46,13 @@ module.exports = {
     currency: "USD",
     // No price API key configured; gas is reported in native units + USD at 0
     // unless COINMARKETCAP_API_KEY is set. The gas-unit numbers are what matter.
+  },
+  // BscScan verification (see BSCSCAN.md). The API key comes from the
+  // BSCSCAN_API_KEY environment variable only — never commit it.
+  etherscan: {
+    apiKey: {
+      bscTestnet: process.env.BSCSCAN_API_KEY || "",
+      bsc: process.env.BSCSCAN_API_KEY || "",
+    },
   },
 };

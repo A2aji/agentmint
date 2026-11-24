@@ -145,6 +145,55 @@ The script deploys token → NFT implementation → factory, grants the factory
 `REGISTRAR_ROLE` on the token (required before the first collection can be
 launched), and writes the addresses + gas used to `deployments/<chainId>.json`.
 
+### Testnet (chain 97) — mock Agent ID first
+
+The official Agent ID contract does not exist on BSC testnet, so testnet
+deploys point at `MockAgentID` instead. Full status + runbook:
+[TESTNET.md](TESTNET.md). Short version:
+
+```bash
+npx hardhat run scripts/deploy-mock.js --network bscTestnet
+AGENT_ID_ADDRESS=$(node -e "console.log(require('./deployments/97-mock.json').mockAgentId)") \
+  npx hardhat run scripts/deploy.js --network bscTestnet
+npx hardhat run scripts/e2e.js --network bscTestnet   # 4 checks, exit 1 on failure
+```
+
+Status 24 Nov 2026: **blocked on tBNB** — the deployer wallet holds 0 tBNB
+and every tBNB faucet needs an interactive captcha or an account login (see
+TESTNET.md). The whole flow was dry-run on a local Hardhat node instead:
+all 4 E2E checks pass (`deployments/31337-e2e.json`).
+
+### Mint page
+
+Static page in `frontend/` (`index.html` + `config.js` + `app.js`, ethers.js
+v6 via CDN, no build step). Connects through the browser's injected wallet
+(e.g. MetaMask) — no QR code, no pairing code, no seed phrase. It checks the
+wallet's Agent ID balance, lists collections from the factory, mints free
+(value 0, gas only), and shows NFT + AMT balances. Fill `frontend/config.js`
+from `deployments/<chainId>.json` after deploy (testnet addresses are still
+empty until the testnet deploy lands).
+
+Open it locally:
+
+```bash
+cd frontend && python3 -m http.server 8000
+# open http://localhost:8000/ (file:// also works, but a local server avoids
+# browser quirks with ES modules / CDN fetches)
+```
+
+Publish it with GitHub Pages once the repo exists (no push has been made yet):
+
+```bash
+# from the repo root, after the GitHub repo is created (do NOT run before):
+git add frontend && git commit -m "AgentMint: static mint page" && git push
+# GitHub repo → Settings → Pages → Source: Deploy from a branch →
+# Branch: main, Folder: /frontend → Save.
+# Page goes live at https://<user>.github.io/<repo>/ (a few minutes).
+```
+
+`frontend/` is a plain static folder on purpose: Pages serves it with no
+build step, and the same files work on any static host.
+
 Mainnet (chain 56) is guarded: the script refuses unless
 `CONFIRM_MAINNET_DEPLOY=yes` is set, and mainnet deploy happens only with
 an explicit go-ahead. After deploy, verify all three contracts on BscScan
@@ -207,9 +256,16 @@ test/
   AgentMint.test.js         24 tests
 scripts/
   deploy.js                 testnet/mainnet deploy (parameterized, key via env)
+  deploy-mock.js            testnet only: deploy MockAgentID + mint mock IDs
+  e2e.js                    end-to-end checks a–d against a live deployment
+  verify-args.js            write factory constructor-args file for BscScan verify
   creation-data.js          creation bytecode for external signing paths
+frontend/
+  index.html + config.js + app.js   static mint page (ethers.js via CDN)
 deployments/
   31337.json                local-network deploy record (example)
+TESTNET.md                  testnet blocker (tBNB faucet) + runbook
+BSCSCAN.md                  exact BscScan verification recipe per contract
 hardhat.config.js           networks 97 (testnet) + 56 (mainnet), gas reporter
 PERMISSIONS.md              owner-permission documentation
 .env.example                env template (no secrets)

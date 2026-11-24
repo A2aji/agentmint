@@ -1,0 +1,14 @@
+{
+  "network": 31337,
+  "mockAgentId": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "deployTx": "0x074e8f55a970f82cfdba27d3403732f16f3db9525afc205970d5e8c2a8b4c883",
+  "deployGasUsed": "987685",
+  "holders": [
+    "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "0x70997970C51812dc3A010C7d01b50e0d17dc79C8"
+  ],
+  "mintTxs": [
+    "0xdef79268eacdcfaa4a1df5f9f4ce3233b276810e4b0a3525b06b165119e27bb2",
+    "0x3e2c233402dd8e29ada947c70aa46cb367e121254c28a78d683c4b82ce23f329"
+  ]
+}
