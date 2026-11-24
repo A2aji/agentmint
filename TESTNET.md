@@ -7,11 +7,19 @@ from this VM on 24 Nov 2026:
 
 - **Official BNB testnet faucet** (`https://testnet.bnbchain.org/faucet-smart`
   → redirects to `https://www.bnbchain.org/en/testnet-faucet`): the page loads
-  (HTTP 200) but claiming requires solving an **hCaptcha**
-  (`js.hcaptcha.com/1/api.js`, `hcaptcha.render` / `hcaptcha.execute` in the
-  page JS). No API endpoint exists that accepts an address without a captcha
-  token — POSTing to the guessed `/faucet-smart/api/claim` returns the HTML
-  faucet page, not a claim.
+  (HTTP 200). Form = token dropdown + free-text "Wallet Address" field +
+  "Send 0.3 BNB" button. **No wallet connection needed.** BUT there is a
+  balance rule, verified live 24 Nov 12:28 WIB: **"0.002 BNB on BSC Mainnet
+  is needed for test funding."** The faucet has no wallet connection, so the
+  only address it can check is the pasted one — the pasted address must hold
+  ≥0.002 BNB on mainnet. The throwaway deployer (0x1917eaea…) holds 0 on
+  mainnet, so claiming straight to it will likely be rejected. **Flow:
+  Bos claims to his OWN address (0xaD50…0720, holds 0.01014 BNB mainnet —
+  qualifies), then forwards tBNB to the deployer.** Pays **0.3 tBNB** per
+  claim (not 0.5), once per 24 hours. No captcha widget is visible on the
+  form (hCaptcha JS is in the page source, so a security check may appear
+  after clicking Send). No API endpoint accepts an address without going
+  through the page.
 - **Chainstack faucet** (`https://faucet.chainstack.com/bnb-testnet-faucet`):
   page loads (HTTP 200) but requires a Chainstack account login.
 - **Chainlink faucet** (`https://faucets.chain.link/bnb-chain-testnet`): page
@@ -51,20 +59,44 @@ only blocker: everything else in Fase 3 is built, tested locally, and ready.
 | E2E: createCollection + mint + 2 reverting calls | ~600,000 | ~0.000060 |
 | **Total** | **~5,000,000** | **~0.0005** |
 
-The official faucet pays **0.5 tBNB** per claim — about 1,000× what this
+The official faucet pays **0.3 tBNB** per claim (once per 24h) — about 600× what this
 runbook needs. One claim is enough for deployer + both testers.
 
-## How to unblock (Bos, from his phone — 2 minutes)
+## How to unblock (Bos, from his phone)
 
-1. Open the official faucet in the phone browser:
-   `https://testnet.bnbchain.org/faucet-smart` (or
-   `https://www.bnbchain.org/en/testnet-faucet`).
-2. Paste the deployer address `0x1917eaea3d9092487E8De6a8068A1359C8b2882B`,
-   solve the captcha, claim. tBNB has no real value; this address is a
-   throwaway testnet-only wallet, NOT Bos's wallet.
-3. Tell Muse "tBNB sudah dikirim". Muse then runs the commands below.
-   (Alternative: Bos sends the tBNB from his own wallet — same address,
-   same result.)
+**IMPORTANT (verified 24 Nov 12:40 WIB): the Binance Agentic Wallet has NO
+testnet support at all.** `baw wallet chains` lists only 7 mainnets (BSC 56,
+Ethereum 1, Base 8453, Arbitrum 42161, Polygon 137, Solana, Robinhood) — no
+BSC Testnet (97). So Bos CANNOT switch the Agentic Wallet to testnet and
+CANNOT forward tBNB from it. The "claim to own address, then forward"
+flow does NOT work through Agentic. Two working paths:
+
+**Path A (Chainstack) — DEAD, verified 24 Nov 12:45 WIB.** The Chainstack
+faucet page states two checks before disbursing: (1) the requesting
+address must hold **≥0.08 ETH on Ethereum mainnet**, (2) it must have a
+history of holding ETH (not recently empty). The deployer holds 0 ETH and
+has no history, so claiming to it fails. Claiming to Bos's address does
+not help either — even if it passed, Bos cannot forward tBNB from the
+Agentic Wallet (no testnet support). Do NOT waste time creating a
+Chainstack account for this.
+
+**Path B (most reliable): MetaMask.** Install free MetaMask on the phone,
+create a wallet, send **0.005 BNB (mainnet)** from the Agentic Wallet to
+the MetaMask address (so it passes the official faucet's 0.002 BNB mainnet
+rule), claim the official faucet
+(`https://testnet.bnbchain.org/faucet-smart`) to the MetaMask address
+(0.3 tBNB), then send **0.05 tBNB** (testnet) from MetaMask to the
+deployer `0x1917eaea3d9092487E8De6a8068A1359C8b2882B`. All funds stay in
+wallets Bos controls.
+
+**Path C (skip testnet):** if Bos does not want the hassle, skip the
+testnet rehearsal and go straight to mainnet with extra care (contracts
+already pass 24/24 local tests + 4/4 local E2E; mainnet deploy is only
+~$0.09). Only on Bos's explicit OK — it skips the live-chain rehearsal.
+
+Tell Muse "tBNB sudah dikirim" (path A/B) or "lewati testnet" (path C).
+Muse then runs the commands below (A/B) or moves to the mainnet deploy
+guide (C).
 
 ## Runbook — once the deployer holds tBNB
 
