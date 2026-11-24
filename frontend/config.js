@@ -28,8 +28,8 @@ const AGENTMINT_CONFIG = {
     rpcUrl: "https://bsc-dataseed.binance.org/",
     blockExplorer: "https://bscscan.com",
     agentId: "0x60b9262456de011f7d15a54cdd8c48baaa8b022f",
-    token: "", // FILL ME after mainnet deploy
-    nftImplementation: "", // FILL ME after mainnet deploy
-    factory: "", // FILL ME after mainnet deploy
+    token: "0x608112c648C48Df948cebEFcfE39871fC9DB6085", // mainnet deploy 24 Nov 2026
+    nftImplementation: "0x1a3b457Af5fF36283d2444C47F65622c123AC979", // mainnet deploy 24 Nov 2026
+    factory: "0xFF6A1F2070f395Be9cA150Be4eBbd44d6b92267C", // mainnet deploy 24 Nov 2026
   },
 };
