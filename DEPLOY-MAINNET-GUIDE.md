@@ -6,8 +6,9 @@
 
 ## Yang disiapkan
 
-- Laptop Bos (browser Chrome) + HP Bos dengan aplikasi Binance (wallet `0xaD50d4C370e1a55d7517215E33b0176472260720`, Agent ID `jiazi22.ai`).
-- Saldo BNB di wallet: ~0,01014 BNB (sudah ada — cukup ~50x biaya deploy pada gas saat ini).
+- Laptop Bos (browser Chrome) + HP Bos dengan aplikasi Binance.
+- **Deploy dilakukan dari wallet UTAMA Bos (yang terhubung via WalletConnect).** Wallet Agentic (`0xaD50d4C370e1a55d7517215E33b0176472260720`, Agent ID `jiazi22.ai`) memang **tidak bisa** dihubungkan ke Remix — Binance merancangnya hanya untuk agen (Muse via baw), dan FAQ resmi mereka bilang jangan sign-in Agentic via QR situs pihak ketiga. Wallet utama yang jadi admin Token + owner Factory; koleksi Genesis nanti dibuat Muse dari wallet Agentic via baw.
+- Saldo BNB di wallet utama: cek dulu — biaya deploy ~0,0002 BNB. Kalau 0, kirim ~0,001 BNB dari wallet Agentic ke wallet utama di aplikasi Binance.
 
 ## Langkah 0 — Cek gas dulu
 
@@ -36,7 +37,7 @@
 1. Klik ikon **Deploy & Run Transactions** (ikon panah) di panel kiri.
 2. Di **Environment**, pilih **WalletConnect** (bukan "Injected Provider").
 3. Akan muncul kode QR. Buka aplikasi **Binance** di HP → **WalletConnect** (biasanya di menu scan/koneksi) → scan QR itu → setujui koneksi.
-4. Pastikan di Remix tertulis jaringan **BNB Smart Chain (56)** dan alamat yang terhubung adalah `0xaD50d4C370e1a55d7517215E33b0176472260720`.
+4. Pastikan di Remix tertulis jaringan **BNB Smart Chain (56)**. Alamat yang terhubung adalah **wallet UTAMA Bos** (bukan `0xaD50...0720` — wallet Agentic memang tidak bisa terhubung ke Remix). **Catat alamat wallet utama itu dan kirim ke Muse** untuk dicek saldonya sebelum deploy.
 5. Kalau tertulis jaringan lain, ganti ke BNB Smart Chain dulu di aplikasi Binance.
 
 ## Langkah 4 — Deploy AgentMintToken
@@ -71,28 +72,19 @@
 3. Klik **transact**, konfirmasi di HP.
 4. (Cek: nilai role itu adalah `REGISTRAR_ROLE` — bisa dicek dengan memanggil fungsi `REGISTRAR_ROLE` di kontrak Token, hasilnya harus sama persis dengan nilai di atas.)
 
-## Langkah 8 — (Opsional, tapi disarankan) Buat koleksi pertama
+## Langkah 8 — (Dilakukan Muse, bukan Bos) Buat koleksi pertama
 
-Supaya halaman mint langsung ada isinya, buat koleksi Genesis:
-
-1. Di **Contract**, pilih `AgentMintFactory`, lalu di **At Address** tempel alamat **FACTORY** → klik **At Address**.
-2. Cari fungsi `createCollection`, isi:
-   - `name` → `AgentMint Genesis`
-   - `symbol` → `AMG`
-   - `maxSupply` → `10000`
-   - `baseURI` → (kosongkan)
-   - `payoutPerMint` → `1000000000000000000000` (ini 1000 AMT, dalam wei)
-3. Klik **transact**, konfirmasi di HP.
-4. **Salin alamat koleksi** yang muncul (dari struk transaksi / event `CollectionCreated`).
+Koleksi Genesis dibuat oleh Muse dari wallet Agentic via baw — hanya wallet Agentic yang punya Agent ID (syarat `createCollection`), dan wallet Agentic hanya bisa bergerak lewat agen. Bos **tidak perlu** melakukan langkah ini di Remix. Cukup kirim 3 alamat dari Langkah 4–6 ke Muse (Langkah 9), dan Muse yang membuat koleksi Genesis (`AgentMint Genesis`, `AMG`, maxSupply 10000, payout 1000 AMT) lalu mengirim alamat koleksinya ke Bos.
 
 ## Langkah 9 — Kirim ke Muse
 
-Kirim ke Muse (WhatsApp) 3 alamat ini (plus alamat koleksi kalau Langkah 8 dilakukan):
+Kirim ke Muse (WhatsApp) 3 alamat ini:
 
 - TOKEN: `0x...`
 - IMPLEMENTATION: `0x...`
 - FACTORY: `0x...`
-- Koleksi Genesis (kalau ada): `0x...`
+
+(Muse yang membuat koleksi Genesis setelah menerima 3 alamat ini, lalu mengirim alamat koleksinya ke Bos.)
 
 Muse yang akan: verifikasi ketiganya di BscScan, isi alamat mainnet di halaman mint, publish halaman, lalu submit proyek ke form hackathon.
 
@@ -102,7 +94,7 @@ Muse yang akan: verifikasi ketiganya di BscScan, isi alamat mainnet di halaman m
 - **Setiap transaksi harus Bos konfirmasi sendiri di aplikasi Binance.** Jangan setujui transaksi yang Bos tidak kenal.
 - **Deploy hanya ke BNB Smart Chain (56).** Kalau Remix menampilkan jaringan lain, berhenti dan tanya Muse.
 - **Kalau ada langkah yang gagal / alamat tidak muncul / angka gas tiba-tiba besar**, berhenti, jangan ulangi transaksi, dan kirim screenshot ke Muse.
-- Total gas 3 deploy + setup + genesis ≈ 3,7 juta gas → ~0,000185 BNB pada 0,05 gwei; ~0,0037 BNB pada 1 gwei. Saldo Bos 0,01014 BNB menutupinya.
+- Total gas 3 deploy + setup ≈ 3,7 juta gas → ~0,000185 BNB pada 0,05 gwei; ~0,0037 BNB pada 1 gwei — dibayar dari **wallet utama** (pastikan saldonya cukup; kalau 0, kirim ~0,001 BNB dari wallet Agentic). Koleksi Genesis (via baw) dibayar dari wallet Agentic (saldo 0,01014 BNB).
 
 ## Setelah deploy
 
