@@ -1,0 +1,7 @@
+node_modules/
+artifacts/
+cache/
+.env
+coverage/
+deployments/31337.json
+.DS_Store
