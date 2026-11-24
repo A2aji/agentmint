@@ -2,7 +2,7 @@
 
 > **Yang Bos lakukan:** deploy 3 kontrak dari laptop Bos sendiri (Remix + WalletConnect ke aplikasi Binance). Kunci wallet tetap di tangan Bos — Muse tidak pernah memegang seed/private key Bos.
 > **Waktu:** ~15–20 menit. **Biaya:** ~0,0002 BNB (kurang dari $0,20) pada gas saat ini. **Jaringan:** BNB Smart Chain (chain ID 56) — JANGAN deploy ke jaringan lain.
-> **Syarat sebelum mulai:** testnet sudah lolos. Jangan deploy mainnet sebelum Muse bilang testnet lolos.
+> **Syarat sebelum mulai:** Bos memilih Path C — lewati testnet, langsung mainnet dengan hati-hati (kontrak sudah lolos 24/24 test lokal, gas dicek rendah).
 
 ## Yang disiapkan
 
