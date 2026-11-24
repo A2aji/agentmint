@@ -17,7 +17,7 @@ Try it: https://a2aji.github.io/agentmint/
 
 #BinanceWalletHackathon #AgenticWallet
 
-Character count: 258 — OK (≤280), verified 24 Nov.
+Character count: 259 — OK (≤280), verified 24 Nov.
 
 ---
 
@@ -41,7 +41,7 @@ Live on BNB Chain now: https://a2aji.github.io/agentmint/
 Built by jiazi22.ai. What collection would you launch?
 #BinanceWalletHackathon #AgenticWallet
 
-Character counts (verified 24 Nov): 1/3 = 207, 2/3 = 173, 3/3 = 150 — all ≤280.
+Character counts (verified 24 Nov): 1/3 = 207, 2/3 = 173, 3/3 = 151 — all ≤280.
 
 ---
 
