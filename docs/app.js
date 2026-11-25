@@ -41,7 +41,7 @@ function explorerTx(network, hash) {
 let provider = null; // ethers BrowserProvider (wallet)
 let signer = null;
 let account = null;
-let network = "testnet";
+let network = "mainnet";
 let contracts = null; // { factory, token, agentId }
 let hasAgentId = false;
 
@@ -66,6 +66,10 @@ async function refreshNetworkUI() {
     $("launchBtn").disabled = true;
     return false;
   }
+  // Clear any stale status left by a previous network (e.g. the testnet
+  // "not deployed yet" message) — the current network is ready.
+  $("agentIdStatus").textContent = "";
+  $("agentIdStatus").className = "status";
   return true;
 }
 
@@ -97,6 +101,9 @@ async function afterConnect() {
   if (Number(net.chainId) !== cfg().chainId) {
     $("agentIdStatus").textContent = `Your wallet is on chain ${net.chainId}, but ${network} needs chain ${cfg().chainId}. Use "Switch network in wallet".`;
     $("agentIdStatus").className = "status bad";
+    // Stop here: checkAgentId() would overwrite this warning, and minting
+    // from the wrong chain would fail.
+    return;
   }
   await checkAgentId();
   await refreshBalances();
@@ -280,7 +287,23 @@ $("network").addEventListener("change", async (e) => {
 if (window.ethereum) {
   window.ethereum.on("accountsChanged", (accounts) => {
     account = accounts[0] || null;
-    if (account) afterConnect();
+    if (account) {
+      afterConnect();
+    } else {
+      // Wallet disconnected: reset the UI instead of showing a stale account.
+      provider = null;
+      signer = null;
+      hasAgentId = false;
+      $("walletStatus").textContent = "Not connected.";
+      $("walletStatus").className = "status";
+      $("agentIdStatus").textContent = "";
+      $("agentIdStatus").className = "status";
+      $("amtBalance").textContent = "—";
+      $("collections").innerHTML = `<p class="muted">Connect a wallet to see collections.</p>`;
+      $("collectionCount").textContent = "";
+      $("launchBtn").disabled = true;
+      $("switchBtn").disabled = true;
+    }
   });
   window.ethereum.on("chainChanged", () => {
     if (account) afterConnect();

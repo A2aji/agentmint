@@ -61,7 +61,7 @@ Requirements (all must be true before submitting):
 - **What it is:** a launchpad where Agent ID holders launch free-mint NFT collections, and Agent ID holders mint from them for free, receiving a community reward token in the same transaction.
 - **Problem it solves:** launching an Agent ID-gated mint today requires writing and deploying a custom contract; AgentMint makes it a one-click flow, and gives every Agent ID holder a reason to try another holder's collection.
 - **Live status:** live since 24 Nov 2026; **1 unique Agent ID address interacted so far** (the Agentic wallet's own test mint, Genesis NFT #1 + 1,000 AMT) — minimum 30 required before submitting (see tracker in `recruitment-guide.md`).
-- **Demo:** [PLACEHOLDER — link to a short demo video or a step-by-step mint walkthrough, if made]
+- **Demo:** YouTube LIVE 25 Nov ~13:23 WIB — https://youtu.be/9PdmVk7iZoo (52.9s; form field 12 still holds the website link until Bos swaps it via Edit Response)
 - **Innovation angle:** first launchpad where the launch + mint gates AND the displayed identity are all the Agent ID itself; the "mint + community reward in one transaction" pattern reuses a model already proven live 11 times by this builder (AgentNOVA, Undead, COSMOS free mints).
 
 ## 7. Owner permissions disclosure (required by the hackathon rules)
@@ -95,10 +95,12 @@ Also documented: reward token total supply cap **1,000,000,000 AMT, fixed, never
 ## 9. Submission checklist (day of submit, 9 Dec before 16:00 WIB)
 
 - [x] Submission channel confirmed (see warning at top) and form opened
-- [ ] 30+ eligible Agent ID addresses verified in the tracker
+- [x] 30+ eligible Agent ID addresses verified in the tracker (30/30 reached 25 Nov 12:32 WIB)
 - [x] All contracts verified + open-source on BscScan
 - [x] Website live, mint tested end-to-end
 - [x] Owner permissions documented (Section 7) and matching the deployed contracts
-- [ ] No banned wording on the website or in the submission text
-- [ ] One project only — no second submission from this team
+- [x] Form SUBMITTED 25 Nov ~12:54 WIB (screenshot 'Survey already completed' saved in WhatsApp chat; Edit Response button available — demo video link can be swapped in before 9 Dec deadline)
+- [x] One project only — no second submission from this team
+- [x] Demo video link swapped in via Edit Response 25 Nov ~13:25 WIB (Bos confirmed 'done') — field 12 now https://youtu.be/9PdmVk7iZoo
+- [x] No banned wording on the website or in the submission text
 - [ ] Copy of the submitted form saved (screenshot + text) in this folder

@@ -35,8 +35,8 @@
   <div class="row">
     <label for="network">Network</label>
     <select id="network">
+      <option value="mainnet" selected>BNB Smart Chain (mainnet)</option>
       <option value="testnet">BNB Smart Chain Testnet</option>
-      <option value="mainnet">BNB Smart Chain (mainnet)</option>
     </select>
     <button id="connectBtn" class="primary">Connect wallet</button>
     <button id="switchBtn" disabled>Switch network in wallet</button>
@@ -83,7 +83,7 @@
   <div id="log">Ready.</div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+<script src="./ethers.umd.min.js"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
 </body>
