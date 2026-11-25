@@ -20,6 +20,7 @@ const NFT_ABI = [
   "function balanceOf(address) view returns (uint256)",
   "function hasMinted(address) view returns (bool)",
   "function paused() view returns (bool)",
+  "function owner() view returns (address)",
   "event Minted(address indexed minter, uint256 indexed tokenId, uint256 payout)",
 ];
 const TOKEN_ABI = [
@@ -27,7 +28,10 @@ const TOKEN_ABI = [
   "function symbol() view returns (string)",
   "function decimals() view returns (uint8)",
 ];
-const AGENT_ID_ABI = ["function balanceOf(address) view returns (uint256)"];
+const AGENT_ID_ABI = [
+  "function balanceOf(address) view returns (uint256)",
+  "function handleOf(address wallet) view returns (string)",
+];
 
 const $ = (id) => document.getElementById(id);
 const logEl = $("log");
@@ -44,6 +48,23 @@ let account = null;
 let network = "mainnet";
 let contracts = null; // { factory, token, agentId }
 let hasAgentId = false;
+let accountAgentIdName = null; // e.g. "jiazi22.ai" for the connected wallet
+
+// Cache of wallet address (lowercase) -> ".ai" name or null, so each address
+// is resolved once per page load.
+const handleCache = new Map();
+async function agentIdName(readProvider, address) {
+  const key = address.toLowerCase();
+  if (handleCache.has(key)) return handleCache.get(key);
+  let name = null;
+  try {
+    const agentId = new ethers.Contract(cfg().agentId, AGENT_ID_ABI, readProvider);
+    const handle = await agentId.handleOf(address);
+    if (handle) name = handle + ".ai";
+  } catch {}
+  handleCache.set(key, name);
+  return name;
+}
 
 function cfg() {
   return AGENTMINT_CONFIG[network];
@@ -117,8 +138,17 @@ async function checkAgentId() {
     const agentId = new ethers.Contract(c.agentId, AGENT_ID_ABI, readProvider);
     const bal = await agentId.balanceOf(account);
     hasAgentId = bal > 0n;
+    // Resolve the wallet's .ai name (read-only handleOf call). Empty means
+    // the wallet holds no name; a failure leaves the name blank.
+    accountAgentIdName = null;
+    if (hasAgentId) {
+      try {
+        const handle = await agentId.handleOf(account);
+        if (handle) accountAgentIdName = handle + ".ai";
+      } catch {}
+    }
     $("agentIdStatus").textContent = hasAgentId
-      ? `Agent ID: yes — this wallet holds an Agent ID (balance ${bal}). You can launch collections and mint.`
+      ? `Agent ID: yes — ${accountAgentIdName || "this wallet"} holds an Agent ID (balance ${bal}). You can launch collections and mint.`
       : `Agent ID: no — this wallet holds no Agent ID (balance 0). Launching and minting are only open to Agent ID holders.`;
     $("agentIdStatus").className = "status " + (hasAgentId ? "ok" : "bad");
     $("launchBtn").disabled = !hasAgentId;
@@ -162,6 +192,14 @@ async function refreshCollections() {
         nft.name(), nft.symbol(), nft.maxSupply(), nft.totalMinted(),
         nft.payoutPerMint(), nft.balanceOf(account), nft.hasMinted(account), nft.paused(),
       ]);
+      // Resolve the launcher's .ai name (collection owner). Kept separate
+      // from the main reads so a failure here cannot break the card.
+      let launcherLabel = "";
+      try {
+        const ownerAddr = await nft.owner();
+        const launcherName = await agentIdName(readProvider, ownerAddr);
+        launcherLabel = `Launched by ${launcherName || ownerAddr}`;
+      } catch {}
       const div = document.createElement("div");
       div.className = "collection";
       const soldOut = totalMinted >= maxSupply;
@@ -172,6 +210,7 @@ async function refreshCollections() {
         Minted: ${totalMinted} / ${maxSupply} &nbsp;·&nbsp;
         Community reward per mint: ${ethers.formatUnits(payout, 18)} AMT &nbsp;·&nbsp;
         Your NFTs here: ${nftBal}${paused ? ' &nbsp;·&nbsp;<span class="bad">paused</span>' : ""}<br>
+        ${launcherLabel ? escapeHtml(launcherLabel) + "<br>" : ""}
         <span class="muted">Free mint — you only pay gas (hanya bayar gas). One NFT per wallet per collection.</span><br>`;
       const btn = document.createElement("button");
       btn.className = "primary";
@@ -294,6 +333,7 @@ if (window.ethereum) {
       provider = null;
       signer = null;
       hasAgentId = false;
+      accountAgentIdName = null;
       $("walletStatus").textContent = "Not connected.";
       $("walletStatus").className = "status";
       $("agentIdStatus").textContent = "";
